@@ -7,16 +7,52 @@
 //
 
 #import "HypnosisterAppDelegate.h"
+#import "HypnosisView.h"
 
 @implementation HypnosisterAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+
+    
+    CGRect screenRect = [[self window] bounds];
+    //create the UIScroolView to have the size of the wondow, mathcing its size
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:screenRect];
+    [scrollView setMinimumZoomScale:1.0];
+    [scrollView setMinimumZoomScale:5.0];
+    [scrollView setDelegate:self];
+    [[self window] addSubview:scrollView];
+    
+    CGRect bigRect = screenRect;
+   
+    view = [[HypnosisView alloc] initWithFrame:screenRect];
+    
+    //Add the HypnosisView as a subview of the scrolView instead of the window
+    [scrollView addSubview:view];
+    //Tell the scrollView how big its virtual world is
+    [scrollView setContentSize:bigRect.size];
+    
+    
+    
+    BOOL success = [view becomeFirstResponder];
+    if (success) {
+        NSLog(@"HypnosisView became the first responder");
+    }else {
+        NSLog(@"Could not become first responder");
+    }
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+-(UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return view;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
