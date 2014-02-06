@@ -43,12 +43,12 @@
     [[self circleColor] setStroke];
     
     //The color of the line should be grey (red/green/blue = 0.6, alpha = 1.0)
-    [[UIColor lightGrayColor] setStroke];
+   // [[UIColor lightGrayColor] setStroke];
     
     //Draw concentric circles from the outside in
     for(float currentRadius = maxRadius; currentRadius > 0; currentRadius -= 20) {
         //Add a path to the context
-        CGContextAddArc(ctx, center.x, center.y, currentRadius, 0.0, M_PI, YES);
+        CGContextAddArc(ctx, center.x, center.y, currentRadius, 0.0, M_PI*2, YES);
         
         //Preform drawing instruction; remoces path
         CGContextStrokePath(ctx);
